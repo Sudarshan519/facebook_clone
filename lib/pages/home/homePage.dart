@@ -3,18 +3,18 @@ import 'package:facebook_clone/providers/postProvider.dart';
 import 'package:facebook_clone/providers/storiesProvider.dart';
 import 'package:facebook_clone/utils/internetConnection.dart';
 import 'package:facebook_clone/utils/snackbarUtil.dart';
-import 'package:facebook_clone/widgets/createPostWidget.dart';
-import 'package:facebook_clone/widgets/postWidget.dart';
-import 'package:facebook_clone/widgets/storyWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
+import 'homeWidget.dart';
 
 final List<IconData> _tabs = <IconData>[
   Icons.home,
   Icons.people_outline,
-  FontAwesomeIcons.tv,
-  FontAwesomeIcons.gamepad,
+  Icons.tv,
+  Icons.view_quilt_sharp,
   Icons.notifications_none_outlined,
   Icons.menu
 ];
@@ -44,110 +44,16 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
       child: Scaffold(
         backgroundColor: Colors.grey,
         body: NestedScrollView(
-          physics: BouncingScrollPhysics(),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  title: const Text('facebook',
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24)),
-                  actions: [
-                    CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Colors.grey[200],
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Icon(
-                            Icons.search,
-                            size: 20,
-                            color: Colors.grey[800],
-                          ),
-                        )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.grey[200],
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Icon(FontAwesomeIcons.facebookMessenger,
-                            size: 15, color: Colors.grey[800]),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                  floating: true,
-                  pinned: true,
-                  snap: false,
-                  forceElevated: innerBoxIsScrolled,
-                  bottom: TabBar(
-                    isScrollable: true,
-                    labelColor: Colors.grey,
-                    indicatorColor: Colors.blue,
-                    tabs: _tabs
-                        .map((IconData name) => Tab(
-                                icon: Icon(
-                              name,
-                              color: Colors.grey,
-                            )))
-                        .toList(),
-                  ),
-                ),
-              ),
+              FacebookLogo(innerBoxIsScrolled: innerBoxIsScrolled),
             ];
           },
           body: TabBarView(
             children: [
-              SafeArea(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    await Future.delayed(Duration(seconds: 3));
-                    _storiesProvider.initStories();
-                    _postProvider.initPosts();
-                  },
-                  child: SingleChildScrollView(
-                    // physics: BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 50,
-                        ),
-                        createPostWidget(context),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        if (_storiesProvider.stories.length > 0)
-                          Container(
-                            height: 210,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                padding: EdgeInsets.only(left: 30),
-                                children: [
-                                  ..._storiesProvider.stories
-                                      .map((e) => storiesWidget(e)),
-                                ]),
-                          ),
-                        SizedBox(height: 10),
-                        if (_postProvider.posts.length > 0)
-                          ..._postProvider.posts.map((e) => Container(
-                              margin: EdgeInsets.only(bottom: 10),
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              child: postWidget(e)))
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              HomeWidget(
+                  storiesProvider: _storiesProvider,
+                  postProvider: _postProvider),
               Container(),
               Container(),
               Container(),
@@ -174,5 +80,79 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
     } else {
       SnackbarUtil.showSnackBar(context, "No Internet Connection");
     }
+  }
+
+  @override
+  void detach() {
+    // TODO: implement detach
+  }
+
+  @override
+  // TODO: implement keptAlive
+  bool get keptAlive => throw UnimplementedError();
+}
+
+class FacebookLogo extends StatelessWidget {
+  final bool innerBoxIsScrolled;
+  const FacebookLogo({
+    Key key,
+    this.innerBoxIsScrolled,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverOverlapAbsorber(
+      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+      sliver: SliverAppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: const Text('facebook',
+            style: TextStyle(
+                color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 24)),
+        actions: [
+          CircleAvatar(
+              radius: 15,
+              backgroundColor: Colors.grey[200],
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Icon(
+                  Icons.search,
+                  size: 20,
+                  color: Colors.grey[800],
+                ),
+              )),
+          SizedBox(
+            width: 10,
+          ),
+          CircleAvatar(
+            radius: 15,
+            backgroundColor: Colors.grey[200],
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Icon(FontAwesomeIcons.facebookMessenger,
+                  size: 15, color: Colors.grey[800]),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+        floating: true,
+        pinned: true,
+        snap: false,
+        // forceElevated: innerBoxIsScrolled,
+        bottom: TabBar(
+          isScrollable: true,
+          labelColor: Colors.grey,
+          indicatorColor: Colors.blue,
+          tabs: _tabs
+              .map((IconData name) => Tab(
+                      icon: Icon(
+                    name,
+                    color: Colors.grey,
+                  )))
+              .toList(),
+        ),
+      ),
+    );
   }
 }

@@ -16,22 +16,29 @@ Widget createPostWidget(context) {
             ),
             Expanded(
               child: Container(
-                  margin: EdgeInsets.all(7),
-                  width: 200,
-                  height: 40,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      labelStyle: TextStyle(
-                          color: Colors.black,
-                          letterSpacing: 1.5,
-                          fontSize: 18),
-                      labelText: "What's on your mind ?",
-                    ),
-                    enabled: false,
-                  )),
+                margin: EdgeInsets.all(7),
+                alignment: Alignment.centerLeft,
+                height: 40,
+                padding: EdgeInsets.only(left: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.grey)),
+                child: Text(
+                  "What's on your mind ?",
+                  style: TextStyle(color: Colors.grey[800], fontSize: 18),
+                ),
+                //  TextField(
+                //   decoration: InputDecoration(
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(30),
+                //     ),
+                //     labelStyle:
+                //         TextStyle(color: Colors.grey[800], fontSize: 18),
+                //     labelText: "What's on your mind ?",
+                //   ),
+                //   enabled: false,
+                // )
+              ),
             ),
           ],
         ),
@@ -40,13 +47,13 @@ Widget createPostWidget(context) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
-              FontAwesomeIcons.video,
-              size: 14,
+              Icons.video_call_outlined,
+              size: 18,
               color: Colors.red,
             ),
-            Text('Live',
-                style:
-                    TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+            Text(
+              'Live',
+            ),
             Container(
               width: 1,
               height: 16,
