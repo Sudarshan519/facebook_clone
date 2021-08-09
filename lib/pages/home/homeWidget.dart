@@ -35,7 +35,7 @@ class _HomeWidgetState extends State<HomeWidget>
   void initState() {
     // TODO: implement initState
     super.initState();
-    radius = 0;
+    radius = 15;
     scrollController = ScrollController();
     scrollController.addListener(() {
       if (scrollController.position.pixels < 100)
@@ -63,7 +63,6 @@ class _HomeWidgetState extends State<HomeWidget>
           widget._postProvider.initPosts();
         },
         child: SingleChildScrollView(
-          // physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               SizedBox(
@@ -73,49 +72,57 @@ class _HomeWidgetState extends State<HomeWidget>
               SizedBox(
                 height: 6,
               ),
-              // Text(position.toString()),
               if (widget._storiesProvider.stories.length > 0)
                 Container(
                   height: 210,
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: Stack(children: [
-                    ListView(
-                        controller: scrollController,
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(left: 30),
-                        children: [
-                          addStory(),
-                          ...widget._storiesProvider.stories
-                              .map((e) => storiesWidget(e)),
-                        ]),
-                    if ((150 - position) > 0)
-                      Visibility(
+                    StoriesWidget(
+                        scrollController: scrollController, widget: widget),
+                    if (50 - position > 0)
+                      Transform.scale(
+                          scale: (1 - position / 100), child: addStory()),
+                    if ((50 - position) < 0)
+                      AnimatedOpacity(
+                        opacity: (50 - position) < 0 ? 1 : true,
+                        duration: Duration(milliseconds: 200),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: AnimatedContainer(
                             decoration: BoxDecoration(
-                                color: Colors.green,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(radius),
-                                    bottomRight: Radius.circular(radius))),
+                                    topRight: Radius.circular(20),
+                                    bottomRight: Radius.circular(20))),
                             duration: Duration(milliseconds: 300),
-                            height: (40),
-                            width: (50),
+                            height: (200 - position - 50),
+                            width: (150 - position),
                             child: CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      'https://scontent.fktm10-1.fna.fbcdn.net/v/t1.6435-9/206085383_458435611892568_1808376874543890904_n.jpg?_nc_cat=1&ccb=1-4&_nc_sid=09cbfe&_nc_ohc=ygaMJmQyejYAX-b6QzQ&_nc_ht=scontent.fktm10-1.fna&oh=8d340c6c02afe31f23dea8d3cdcaae9f&oe=6135C672'),
-                                  radius: 15,
-                                  backgroundColor: Colors.blue),
-                            ),
+                                radius: (50 - radius / 10),
+                                backgroundColor: Colors.transparent,
+                                child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Stack(
+                                      children: [
+                                        CircleAvatar(
+                                            radius: (50 - radius / 10),
+                                            backgroundImage: NetworkImage(
+                                                'https://scontent.fktm10-1.fna.fbcdn.net/v/t1.6435-9/206085383_458435611892568_1808376874543890904_n.jpg?_nc_cat=1&ccb=1-4&_nc_sid=09cbfe&_nc_ohc=ygaMJmQyejYAX-b6QzQ&_nc_ht=scontent.fktm10-1.fna&oh=8d340c6c02afe31f23dea8d3cdcaae9f&oe=6135C672'),
+                                            backgroundColor: Colors.blue),
+                                        CircleAvatar(
+                                          radius: (15 - radius / 5),
+                                          child: Icon(Icons.add,
+                                              size: (15 - radius / 8)),
+                                        )
+                                      ],
+                                    ))),
                           ),
                         ),
                       ),
                   ]),
                 ),
               SizedBox(height: 10),
-
               if (widget._postProvider.posts.length > 0)
                 ...widget._postProvider.posts.map((e) => Container(
                     margin: EdgeInsets.only(bottom: 10),
@@ -126,5 +133,28 @@ class _HomeWidgetState extends State<HomeWidget>
         ),
       ),
     );
+  }
+}
+
+class StoriesWidget extends StatelessWidget {
+  const StoriesWidget({
+    Key key,
+    @required this.scrollController,
+    @required this.widget,
+  }) : super(key: key);
+
+  final ScrollController scrollController;
+  final HomeWidget widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+        controller: scrollController,
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.only(left: 120),
+        children: [
+          // addStory(),
+          ...widget._storiesProvider.stories.map((e) => storiesWidget(e)),
+        ]);
   }
 }

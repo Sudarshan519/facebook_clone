@@ -4,18 +4,19 @@ Widget addStory() {
   return AnimatedContainer(
     duration: Duration(milliseconds: 300),
     decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.white,
+        border: Border.all(color: Colors.grey),
         // image:
         //     DecorationImage(image: NetworkImage(e.image), fit: BoxFit.fill),
         borderRadius: BorderRadius.circular(16)),
     // padding: EdgeInsets.all(8),
-    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
     height: 200,
     width: 100,
     child: Stack(children: [
       Container(
         decoration: BoxDecoration(
-            color: Colors.black.withOpacity(.5),
+            color: Colors.grey.withOpacity(.5),
             borderRadius: BorderRadius.circular(16)),
       ),
       Center(
