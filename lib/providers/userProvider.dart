@@ -18,8 +18,9 @@ class UserProvider extends ChangeNotifier {
     var _client = http.Client();
     _user.clear();
     try {
-      await _client.get(Uri.parse(APIs.post)).then((response) {
+      await _client.get(Uri.parse(APIs.users)).then((response) {
         if (response.statusCode == 200) {
+          print(response.body);
           final _jsonResponse = jsonDecode(response.body);
           final _data = _jsonResponse;
           if (_data != null) {

@@ -72,8 +72,10 @@ Widget postWidget(Post post) {
               //  overflow: TextOverflow.ellipsis,
             ),
             Text(
-              'more...',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              'SEE ALL...',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
             )
           ],
         )),
@@ -100,7 +102,7 @@ Widget postWidget(Post post) {
             ),
             Spacer(),
             Text(
-              " ${post.comments.toString()} Commets",
+              " ${post.comments.toString()} Comments",
               style: TextStyle(color: Colors.grey),
             ),
           ],
@@ -108,21 +110,23 @@ Widget postWidget(Post post) {
     Divider(),
     Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       LikeButton(),
-      //LikeShareCommentWidget(icon: FontAwesomeIcons.thumbsUp, text: 'LIKE'),
       LikeShareCommentWidget(icon: FontAwesomeIcons.comments, text: 'COMMENT'),
       LikeShareCommentWidget(icon: FontAwesomeIcons.share, text: 'SHARE'),
     ]),
-    // Row(
-    //   children: [
-    //     Expanded(
-    //         child: Container(
-    //             width: double.infinity, height: 5, color: Colors.grey))
-    //   ],
-    // ),
-//
-    Divider(),
-    //comment
-    Padding(
+    SizedBox(
+      height: 10,
+    )
+  ]);
+}
+
+class CommentWidget extends StatelessWidget {
+  const CommentWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -156,15 +160,15 @@ Widget postWidget(Post post) {
                       color: Colors.grey[200],
                       // border: Border.all(color: Colors.grey, width: .8),
                     ),
-                    child: Text(post.content,
-                        style: TextStyle(color: Colors.grey[700])),
+                    // child: Text(post.content,
+                    //     style: TextStyle(color: Colors.grey[700])),
                   ),
                 )
               ],
             ),
           ],
-        ))
-  ]);
+        ));
+  }
 }
 
 Widget commentsWidget() {

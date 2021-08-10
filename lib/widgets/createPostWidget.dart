@@ -1,3 +1,4 @@
+import 'package:facebook_clone/utils/const.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,9 +11,13 @@ Widget createPostWidget(context) {
           children: [
             SizedBox(width: 18),
             CircleAvatar(
-              radius: 19,
+              radius: 17,
               backgroundColor: Colors.blue,
-              child: CircleAvatar(radius: 17, backgroundColor: Colors.white),
+              child: CircleAvatar(
+                radius: 15,
+                backgroundColor: Colors.white,
+                backgroundImage: NetworkImage(userimage),
+              ),
             ),
             Expanded(
               child: Container(
@@ -25,7 +30,7 @@ Widget createPostWidget(context) {
                     border: Border.all(color: Colors.grey)),
                 child: Text(
                   "What's on your mind ?",
-                  style: TextStyle(color: Colors.grey[800], fontSize: 18),
+                  style: TextStyle(color: Colors.grey[600]),
                 ),
                 //  TextField(
                 //   decoration: InputDecoration(

@@ -16,8 +16,7 @@ Widget addStory() {
     child: Stack(children: [
       Container(
         decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(.5),
-            borderRadius: BorderRadius.circular(16)),
+            color: Colors.grey[400], borderRadius: BorderRadius.circular(16)),
       ),
       Center(
           child: Stack(

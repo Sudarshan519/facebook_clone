@@ -7,6 +7,7 @@ import 'package:facebook_clone/widgets/addStoryWidget.dart';
 import 'package:facebook_clone/widgets/createPostWidget.dart';
 import 'package:facebook_clone/widgets/postWidget.dart';
 import 'package:facebook_clone/widgets/storyWidget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -33,20 +34,17 @@ class _HomeWidgetState extends State<HomeWidget>
   double position = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     radius = 15;
     scrollController = ScrollController();
     scrollController.addListener(() {
       if (scrollController.position.pixels < 100)
-        print(scrollController.position.pixels);
-      setState(() {
-        if (scrollController.position.pixels < 100) {
+        setState(() {
           position = scrollController.position.pixels;
-          radius = 50 * position / 100;
-        }
-      });
-      // print(position);
+          radius = 50 * scrollController.position.pixels / 100;
+        });
+
+      print(position);
     });
   }
 
@@ -54,7 +52,7 @@ class _HomeWidgetState extends State<HomeWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print(position);
+
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: () async {
@@ -79,12 +77,12 @@ class _HomeWidgetState extends State<HomeWidget>
                   child: Stack(children: [
                     StoriesWidget(
                         scrollController: scrollController, widget: widget),
-                    if (50 - position > 0)
+                    if ((50 - position) > 0)
                       Transform.scale(
                           scale: (1 - position / 100), child: addStory()),
                     if ((50 - position) < 0)
                       AnimatedOpacity(
-                        opacity: (50 - position) < 0 ? 1 : true,
+                        opacity: (50 - position) < 0 ? 1 : false,
                         duration: Duration(milliseconds: 200),
                         child: Align(
                           alignment: Alignment.centerLeft,
@@ -121,6 +119,29 @@ class _HomeWidgetState extends State<HomeWidget>
                         ),
                       ),
                   ]),
+                ),
+              if (widget._storiesProvider.stories.length == 0)
+                Column(
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        height: 200,
+                        width: double.infinity,
+                        color: Colors.grey,
+                        child: Text('Loading...')),
+                    Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        height: 200,
+                        width: double.infinity,
+                        color: Colors.grey,
+                        child: Text('Loading...')),
+                    Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        height: 200,
+                        width: double.infinity,
+                        color: Colors.white,
+                        child: Text('Loading...'))
+                  ],
                 ),
               SizedBox(height: 10),
               if (widget._postProvider.posts.length > 0)

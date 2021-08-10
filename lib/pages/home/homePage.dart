@@ -1,4 +1,6 @@
 import 'package:after_layout/after_layout.dart';
+import 'package:facebook_clone/pages/home/addFriendWidget.dart';
+import 'package:facebook_clone/pages/login/loginPage.dart';
 import 'package:facebook_clone/providers/postProvider.dart';
 import 'package:facebook_clone/providers/storiesProvider.dart';
 import 'package:facebook_clone/utils/internetConnection.dart';
@@ -54,11 +56,26 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
               HomeWidget(
                   storiesProvider: _storiesProvider,
                   postProvider: _postProvider),
+              AddFriend(),
               Container(),
               Container(),
               Container(),
-              Container(),
-              Container(),
+              ListView(
+                children: [
+                  Container(
+                    height: 50,
+                  ),
+                  ListTile(
+                      onTap: () => Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => LoginPage())),
+                      tileColor: Theme.of(context).scaffoldBackgroundColor,
+                      title: Text(
+                        'Log out',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      leading: Icon(Icons.logout)),
+                ],
+              ),
             ],
           ),
         ),
@@ -81,15 +98,6 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
       SnackbarUtil.showSnackBar(context, "No Internet Connection");
     }
   }
-
-  @override
-  void detach() {
-    // TODO: implement detach
-  }
-
-  @override
-  // TODO: implement keptAlive
-  bool get keptAlive => throw UnimplementedError();
 }
 
 class FacebookLogo extends StatelessWidget {
