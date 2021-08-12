@@ -23,9 +23,23 @@ class _AddFriendState extends State<AddFriend> with AfterLayoutMixin {
       child: ListView(
         children: [
           Container(
-            color: Colors.grey,
-            height: 50,
+            child: Container(
+              color: Colors.grey,
+              height: 50,
+            ),
           ),
+          Row(children: [
+            _getSectionHeader(
+              'Friends',
+            ),
+            Spacer(),
+            Container(
+              margin: EdgeInsets.only(top: 10, right: 10),
+              child: CircleAvatar(
+                  backgroundColor: Colors.grey[200],
+                  child: Icon(Icons.search, color: Colors.grey)),
+            )
+          ]),
           _getFriendsFilter(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -76,41 +90,7 @@ class _AddFriendState extends State<AddFriend> with AfterLayoutMixin {
                         fontSize: 14,
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: FlatButton(
-                            onPressed: () {},
-                            child: Text('Confirm',
-                                style: TextStyle(color: Colors.white)),
-                            color: Theme.of(context).primaryColor,
-                            splashColor: Color(0xffDCDDDF),
-                            textColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 10),
-                        ),
-                        Expanded(
-                          child: FlatButton(
-                            onPressed: () {},
-                            child: Text('Delete',
-                                style: TextStyle(color: Colors.black)),
-                            color: Color(0xffDCDDDF),
-                            splashColor: Color(0xffEBECF0),
-                            textColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 5),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    )
+                    AddFriendButton(context: context)
                   ],
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -149,7 +129,6 @@ class _AddFriendState extends State<AddFriend> with AfterLayoutMixin {
 
   Widget _getFriendsRequests() {
     return Container(
-      padding: EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -157,11 +136,14 @@ class _AddFriendState extends State<AddFriend> with AfterLayoutMixin {
             'Friend Requests',
           ),
           Padding(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.only(bottom: 5),
           ),
-          Text(
-            'No friend Requests',
-            style: TextStyle(color: Colors.grey),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'No friend Requests',
+              style: TextStyle(color: Colors.grey),
+            ),
           ),
         ],
       ),
@@ -207,9 +189,55 @@ class _AddFriendState extends State<AddFriend> with AfterLayoutMixin {
   _initUserData() async {
     bool _isConnected = await InternetConnection.checkConnection();
     if (_isConnected) {
-      Provider.of<UserProvider>(context, listen: false).initUsers();
+      // Provider.of<UserProvider>(context, listen: false).initUsers();
     } else {
       SnackbarUtil.showSnackBar(context, "No Internet Connection");
     }
+  }
+}
+
+class AddFriendButton extends StatelessWidget {
+  const AddFriendButton({
+    Key key,
+    @required this.context,
+  }) : super(key: key);
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: FlatButton(
+            onPressed: () {},
+            child: Text('Confirm', style: TextStyle(color: Colors.white)),
+            color: Theme.of(context).primaryColor,
+            splashColor: Color(0xffDCDDDF),
+            textColor: Colors.black,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: 10),
+        ),
+        Expanded(
+          child: FlatButton(
+            onPressed: () {},
+            child: Text('Delete', style: TextStyle(color: Colors.black)),
+            color: Color(0xffDCDDDF),
+            splashColor: Color(0xffEBECF0),
+            textColor: Colors.black,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: 5),
+        ),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    );
   }
 }

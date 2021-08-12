@@ -1,4 +1,5 @@
 import 'package:facebook_clone/model/post.dart';
+import 'package:facebook_clone/utils/const.dart';
 import 'package:facebook_clone/utils/timeformat.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,7 +22,7 @@ Widget postWidget(Post post) {
           SizedBox(width: 10),
           Flexible(
               child: RichText(
-                  maxLines: 3,
+                  maxLines: 4,
                   textAlign: TextAlign.justify,
                   text: TextSpan(
                       style: TextStyle(color: Colors.black),
@@ -38,7 +39,7 @@ Widget postWidget(Post post) {
                         ),
                         TextSpan(
                           text:
-                              '${post.title.length > 90 ? post.title.substring(0, 90) + '...' : post.title} \t',
+                              '${post.title.length > 70 ? post.title.substring(0, 70) + '...' : post.title} \t\n',
                           style: TextStyle(
                               color: Colors.grey[800],
                               fontWeight: FontWeight.w600),
@@ -107,23 +108,32 @@ Widget postWidget(Post post) {
             ),
           ],
         )),
-    Divider(),
+    Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8),
+      child: Divider(),
+    ),
     Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       LikeButton(),
-      LikeShareCommentWidget(icon: FontAwesomeIcons.comments, text: 'COMMENT'),
-      LikeShareCommentWidget(icon: FontAwesomeIcons.share, text: 'SHARE'),
+      LikeShareCommentWidget(icon: FontAwesomeIcons.comments, text: 'Comment'),
+      LikeShareCommentWidget(icon: FontAwesomeIcons.share, text: 'Share'),
     ]),
     SizedBox(
       height: 10,
-    )
+    ),
+    Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8),
+      child: Divider(),
+    ),
+    CommentWidget(post: post),
   ]);
 }
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget({
     Key key,
+    this.post,
   }) : super(key: key);
-
+  final Post post;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -149,6 +159,7 @@ class CommentWidget extends StatelessWidget {
                 CircleAvatar(
                   radius: 15,
                   backgroundColor: Colors.grey,
+                  backgroundImage: NetworkImage(someone),
                 ),
                 Expanded(
                   child: Container(
@@ -160,12 +171,78 @@ class CommentWidget extends StatelessWidget {
                       color: Colors.grey[200],
                       // border: Border.all(color: Colors.grey, width: .8),
                     ),
-                    // child: Text(post.content,
-                    //     style: TextStyle(color: Colors.grey[700])),
+                    child: Text(post.content,
+                        style: TextStyle(color: Colors.grey[700])),
                   ),
                 )
               ],
             ),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Container(
+                margin: EdgeInsets.only(left: 30),
+                child: Text(
+                  'Like',
+                  style: TextStyle(
+                      color: Colors.grey, fontWeight: FontWeight.w600),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 30),
+                child: Text(
+                  'Comment',
+                  style: TextStyle(
+                      color: Colors.grey, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ]),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(userimage),
+                  ),
+                  SizedBox(width: 5),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(30)),
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            // border: OutlineInputBorder(
+                            //     borderRadius: BorderRadius.circular(30)),
+                            prefix: SizedBox(width: 10),
+                            hintText: 'Write a comment',
+                            hintStyle: TextStyle(
+                              // color: Colors.grey,
+                              fontSize: 14,
+                            ),
+                            // suffix:
+                            //     Row(mainAxisSize: MainAxisSize.min, children: [
+                            //   Icon(Icons.camera),
+                            //   Icon(Icons.photo),
+                            // ]),
+                            suffixIcon: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.camera_alt_outlined),
+                                  SizedBox(width: 5),
+                                  Icon(Icons.photo),
+                                  SizedBox(width: 5),
+                                  Icon(FontAwesomeIcons.smile),
+                                  SizedBox(width: 5),
+                                ])),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         ));
   }
@@ -202,9 +279,9 @@ class _LikeButtonState extends State<LikeButton> {
           width: 10,
         ),
         Text(
-          'LIKE',
+          'Like',
           style: TextStyle(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
               color: !isliked ? Colors.grey : Colors.blue),
         ),
       ]),
@@ -232,7 +309,7 @@ class LikeShareCommentWidget extends StatelessWidget {
         ),
         Text(
           text,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey),
         ),
       ]),
     );

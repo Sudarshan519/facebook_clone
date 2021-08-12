@@ -14,14 +14,10 @@ class LoginPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
 
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+         
           children: [
             SizedBox(height: 50),
-            // Text('facebook',
-            //     style: TextStyle(
-            //         color: Colors.white,
-            //         fontWeight: FontWeight.bold,
-            //         fontSize: 24)),
+          
             Spacer(),
             Center(
                 child: CircleAvatar(
@@ -65,14 +61,18 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    "Don't have account. Sign Up",
-                    style: TextStyle(color: Colors.white),
-                  ),
                 ],
               ),
             ),
             Spacer(),
+            Center(
+              child: Text(
+                "Don't have account. Sign Up",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+
+            // Spacer(),
           ],
         ),
       ),

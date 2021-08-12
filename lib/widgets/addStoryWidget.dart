@@ -4,7 +4,6 @@ Widget addStory() {
   return AnimatedContainer(
     duration: Duration(milliseconds: 300),
     decoration: BoxDecoration(
-        color: Colors.white,
         border: Border.all(color: Colors.grey),
         // image:
         //     DecorationImage(image: NetworkImage(e.image), fit: BoxFit.fill),
@@ -15,8 +14,7 @@ Widget addStory() {
     width: 100,
     child: Stack(children: [
       Container(
-        decoration: BoxDecoration(
-            color: Colors.grey[400], borderRadius: BorderRadius.circular(16)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
       ),
       Center(
           child: Stack(
@@ -49,7 +47,7 @@ Widget addStory() {
           alignment: Alignment.bottomCenter,
           child: Text(
             'Add your story',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
           ),
         ),
       )

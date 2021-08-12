@@ -1,8 +1,10 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:facebook_clone/pages/home/addFriendWidget.dart';
 import 'package:facebook_clone/pages/login/loginPage.dart';
+import 'package:facebook_clone/providers/commentProvider.dart';
 import 'package:facebook_clone/providers/postProvider.dart';
 import 'package:facebook_clone/providers/storiesProvider.dart';
+import 'package:facebook_clone/providers/userProvider.dart';
 import 'package:facebook_clone/utils/internetConnection.dart';
 import 'package:facebook_clone/utils/snackbarUtil.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AfterLayoutMixin {
+  int selectedIndex = 0;
   @override
   void initState() {
     // TODO: implement initState
@@ -44,11 +47,11 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
     return DefaultTabController(
       length: _tabs.length,
       child: Scaffold(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.grey[400],
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-              FacebookLogo(innerBoxIsScrolled: innerBoxIsScrolled),
+              TabWidget(innerBoxIsScrolled: false),
             ];
           },
           body: TabBarView(
@@ -94,15 +97,17 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
     if (_isConnected) {
       Provider.of<StoriesProvider>(context, listen: false).initStories();
       Provider.of<PostProvider>(context, listen: false).initPosts();
+      Provider.of<CommentProvider>(context, listen: false).initComments();
+      Provider.of<UserProvider>(context, listen: false).initUsers();
     } else {
       SnackbarUtil.showSnackBar(context, "No Internet Connection");
     }
   }
 }
 
-class FacebookLogo extends StatelessWidget {
+class TabWidget extends StatelessWidget {
   final bool innerBoxIsScrolled;
-  const FacebookLogo({
+  const TabWidget({
     Key key,
     this.innerBoxIsScrolled,
   }) : super(key: key);
@@ -147,16 +152,16 @@ class FacebookLogo extends StatelessWidget {
         floating: true,
         pinned: true,
         snap: false,
-        // forceElevated: innerBoxIsScrolled,
+        forceElevated: innerBoxIsScrolled,
         bottom: TabBar(
-          isScrollable: true,
+          // isScrollable: true,
           labelColor: Colors.grey,
           indicatorColor: Colors.blue,
           tabs: _tabs
               .map((IconData name) => Tab(
                       icon: Icon(
                     name,
-                    color: Colors.grey,
+                    // color: Colors.grey,
                   )))
               .toList(),
         ),

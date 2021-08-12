@@ -8,7 +8,7 @@ import 'dart:convert';
 class CommentProvider with ChangeNotifier {
   List<Comment> _comments = [];
   List<Comment> get comments => _comments;
-  initPosts() async {
+  initComments() async {
     print('retriving comment');
     var _client = http.Client();
 

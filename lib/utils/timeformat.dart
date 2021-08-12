@@ -1,4 +1,3 @@
-  
 extension TimeFormatting on String {
   static String displayTimeAgoFromTimestamp(timestamp) {
     final year = int.parse(timestamp.substring(0, 4));

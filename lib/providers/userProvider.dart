@@ -20,7 +20,6 @@ class UserProvider extends ChangeNotifier {
     try {
       await _client.get(Uri.parse(APIs.users)).then((response) {
         if (response.statusCode == 200) {
-          print(response.body);
           final _jsonResponse = jsonDecode(response.body);
           final _data = _jsonResponse;
           if (_data != null) {
