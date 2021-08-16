@@ -13,11 +13,8 @@ class LoginPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-
-         
           children: [
             SizedBox(height: 50),
-          
             Spacer(),
             Center(
                 child: CircleAvatar(
@@ -34,6 +31,9 @@ class LoginPage extends StatelessWidget {
                           labelStyle: TextStyle(
                             color: Colors.white,
                           ))),
+                  SizedBox(
+                    height: 10,
+                  ),
                   TextField(
                       decoration: InputDecoration(
                           labelText: 'Password',
@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                             color: Colors.white,
                           ))),
                   Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: EdgeInsets.only(top: 20),
                     width: double.infinity,
                     child: MaterialButton(
                       shape: RoundedRectangleBorder(
@@ -71,8 +71,6 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-
-            // Spacer(),
           ],
         ),
       ),

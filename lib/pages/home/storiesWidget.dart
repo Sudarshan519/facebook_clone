@@ -1,4 +1,3 @@
-
 import 'package:facebook_clone/providers/storiesProvider.dart';
 import 'package:facebook_clone/widgets/storyWidget.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,7 @@ class StoriesWidget extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.only(left: 120),
         children: [
-          ..._storiesProvider.stories.map((e) => storiesWidget(e)),
+          ..._storiesProvider.stories.map((e) => storiesWidget(context, e)),
         ]);
   }
 }

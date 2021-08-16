@@ -1,20 +1,21 @@
 import 'package:facebook_clone/model/post.dart';
 import 'package:facebook_clone/utils/const.dart';
 import 'package:facebook_clone/utils/timeformat.dart';
+import 'package:facebook_clone/widgets/imageview.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-Widget postWidget(Post post) {
+Widget postWidget(context, Post post) {
   return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
     Container(
       padding: EdgeInsets.all(10),
       child: Row(
         children: [
           CircleAvatar(
-            radius: 20,
+            radius: 24,
             backgroundColor: Colors.grey,
             child: CircleAvatar(
-              radius: 19,
+              radius: 23,
               backgroundColor: Colors.grey,
               backgroundImage: NetworkImage(post.userImage),
             ),
@@ -65,29 +66,33 @@ Widget postWidget(Post post) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Text(post.title,
-            //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             Text(
               post.content,
               maxLines: 4,
-              //  overflow: TextOverflow.ellipsis,
             ),
             Text(
               'SEE ALL...',
               style: TextStyle(
+                color: Colors.grey,
                 fontWeight: FontWeight.w600,
               ),
             )
           ],
         )),
-    Image.network(post.image),
+    InkWell(
+        child: Hero(tag: post.image, child: Image.network(post.image)),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ImageWidget(
+                    image: post.image,
+                  )));
+        }),
     Padding(
         padding: const EdgeInsets.only(left: 8.0, top: 8, right: 10),
         child: Row(
           children: [
             CircleAvatar(
               radius: 11,
-              // backgroundColor: Colors.grey,
               child: CircleAvatar(
                   radius: 9,
                   backgroundColor: Colors.blue,
@@ -169,7 +174,6 @@ class CommentWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.grey[200],
-                      // border: Border.all(color: Colors.grey, width: .8),
                     ),
                     child: Text(post.content,
                         style: TextStyle(color: Colors.grey[700])),
@@ -179,7 +183,7 @@ class CommentWidget extends StatelessWidget {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               Container(
-                margin: EdgeInsets.only(left: 30),
+                margin: EdgeInsets.only(left: 50),
                 child: Text(
                   'Like',
                   style: TextStyle(
@@ -213,28 +217,29 @@ class CommentWidget extends StatelessWidget {
                       child: TextField(
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            // border: OutlineInputBorder(
-                            //     borderRadius: BorderRadius.circular(30)),
                             prefix: SizedBox(width: 10),
                             hintText: 'Write a comment',
                             hintStyle: TextStyle(
-                              // color: Colors.grey,
                               fontSize: 14,
                             ),
-                            // suffix:
-                            //     Row(mainAxisSize: MainAxisSize.min, children: [
-                            //   Icon(Icons.camera),
-                            //   Icon(Icons.photo),
-                            // ]),
                             suffixIcon: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(Icons.camera_alt_outlined),
+                                  Icon(
+                                    Icons.camera_alt_outlined,
+                                    color: Colors.grey,
+                                  ),
                                   SizedBox(width: 5),
-                                  Icon(Icons.photo),
+                                  Icon(
+                                    Icons.photo,
+                                    color: Colors.grey,
+                                  ),
                                   SizedBox(width: 5),
-                                  Icon(FontAwesomeIcons.smile),
+                                  Icon(
+                                    FontAwesomeIcons.smile,
+                                    color: Colors.grey,
+                                  ),
                                   SizedBox(width: 5),
                                 ])),
                       ),
@@ -246,10 +251,6 @@ class CommentWidget extends StatelessWidget {
           ],
         ));
   }
-}
-
-Widget commentsWidget() {
-  return Container();
 }
 
 class LikeButton extends StatefulWidget {

@@ -31,17 +31,7 @@ Widget createPostWidget(context) {
                   "What's on your mind ?",
                   style: TextStyle(color: Colors.grey[600]),
                 ),
-                //  TextField(
-                //   decoration: InputDecoration(
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(30),
-                //     ),
-                //     labelStyle:
-                //         TextStyle(color: Colors.grey[800], fontSize: 18),
-                //     labelText: "What's on your mind ?",
-                //   ),
-                //   enabled: false,
-                // )
+
               ),
             ),
           ],

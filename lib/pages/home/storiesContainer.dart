@@ -1,7 +1,7 @@
-
 import 'package:facebook_clone/pages/home/storiesWidget.dart';
 import 'package:facebook_clone/widgets/addStoryWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class StoriesContainer extends StatefulWidget {
   const StoriesContainer({
@@ -23,17 +23,22 @@ class _StoriesContainerState extends State<StoriesContainer> {
     position = 1;
     scrollController = ScrollController();
     scrollController.addListener(() {
-      if (scrollController.position.pixels < 100)
+      if (scrollController.position.userScrollDirection ==
+              ScrollDirection.reverse &&
+          position < 100)
         setState(() {
           position = scrollController.position.pixels;
           radius = 50 * scrollController.position.pixels / 100;
         });
-      // if (position > 90)
-      //   setState(() {
-      //     position = 100;
-      //     radius = 50;
-      //   });
-      // print(position);
+
+      if (scrollController.position.userScrollDirection ==
+              ScrollDirection.forward &&
+          scrollController.position.pixels < 100) {
+        setState(() {
+          position = scrollController.position.pixels;
+          radius = 50 * scrollController.position.pixels / 100;
+        });
+      }
     });
   }
 
@@ -44,8 +49,16 @@ class _StoriesContainerState extends State<StoriesContainer> {
     scrollController.dispose();
   }
 
+  reasign() {
+    if (position > 100)
+      setState(() {
+        position = 100;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
+    reasign();
     return Container(
       height: 210,
       color: Theme.of(context).scaffoldBackgroundColor,
@@ -55,9 +68,9 @@ class _StoriesContainerState extends State<StoriesContainer> {
         ),
         if ((50 - position) > 0)
           Transform.scale(scale: (1 - position / 100), child: addStory()),
-        if ((50 - position) < 0)
+        if ((40 - position) < 0)
           AnimatedOpacity(
-            opacity: (50 - position) < 0 ? 1 : false,
+            opacity: (39 - position) < 0 ? 1 : false,
             duration: Duration(milliseconds: 1),
             child: Align(
               alignment: Alignment.centerLeft,

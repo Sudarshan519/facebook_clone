@@ -1,9 +1,6 @@
 import 'dart:math';
 
-import 'package:facebook_clone/model/stories.dart';
-import 'package:facebook_clone/pages/home/peopleyouMayKnow.dart';
 import 'package:facebook_clone/pages/home/storiesContainer.dart';
-import 'package:facebook_clone/pages/home/storiesWidget.dart';
 import 'package:facebook_clone/providers/postProvider.dart';
 import 'package:facebook_clone/providers/storiesProvider.dart';
 import 'package:facebook_clone/widgets/createPostWidget.dart';
@@ -65,7 +62,7 @@ class _HomeWidgetState extends State<HomeWidget>
                   ...widget._postProvider.posts.map((e) => Container(
                       margin: EdgeInsets.only(bottom: 10),
                       color: Theme.of(context).scaffoldBackgroundColor,
-                      child: postWidget(e))),
+                      child: postWidget(context, e))),
               ],
             ),
           ),

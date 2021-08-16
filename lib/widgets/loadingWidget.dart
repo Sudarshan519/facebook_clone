@@ -13,7 +13,7 @@ class LoadingWIdget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Shimmer.fromColors(
-          // Wrap your widget into Shimmer.
+           
           baseColor: Colors.grey[200],
           highlightColor: Colors.grey[350],
           child: Column(
