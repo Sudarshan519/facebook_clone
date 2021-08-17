@@ -16,7 +16,7 @@ class StoryViewWidget extends StatelessWidget {
         PageController(initialPage: storiesProvider.stories.indexOf(e));
 
     return Scaffold(
-        backgroundColor: Colors.black,
+        // backgroundColor: Colors.black,
         body: PageView.builder(
             controller: pageController,
             itemCount: storiesProvider.stories.length,
@@ -24,22 +24,24 @@ class StoryViewWidget extends StatelessWidget {
                   color: Colors.black,
                   child: Stack(
                     children: [
-                      StoryView(
-                        storyItems: [
-                          StoryItem.pageImage(
-                              url: storiesProvider.stories[i].image,
-                              //  caption: storiesProvider.stories[i].name,
-                              controller: storyController)
-                        ],
-                        controller: storyController,
-                        onComplete: () {
-                          if (storiesProvider.stories.length !=
-                              storiesProvider.stories.indexOf(e))
-                            pageController.nextPage(
-                                duration: Duration(milliseconds: 100),
-                                curve: Curves.easeIn);
-                        },
-                        repeat: true,
+                      SafeArea(
+                        child: StoryView(
+                          storyItems: [
+                            StoryItem.pageImage(
+                                url: storiesProvider.stories[i].image,
+                                //  caption: storiesProvider.stories[i].name,
+                                controller: storyController)
+                          ],
+                          controller: storyController,
+                          onComplete: () {
+                            if (storiesProvider.stories.length !=
+                                storiesProvider.stories.indexOf(e))
+                              pageController.nextPage(
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.easeIn);
+                          },
+                          repeat: true,
+                        ),
                       ),
                       Positioned(
                         top: 50,
@@ -47,6 +49,7 @@ class StoryViewWidget extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 18.0, horizontal: 15),
                           child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CircleAvatar(
@@ -78,7 +81,7 @@ class StoryViewWidget extends StatelessWidget {
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),

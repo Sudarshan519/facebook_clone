@@ -1,9 +1,8 @@
- 
 import 'package:facebook_clone/pages/login/loginPage.dart';
 import 'package:facebook_clone/providers/commentProvider.dart';
 import 'package:facebook_clone/providers/postProvider.dart';
 import 'package:facebook_clone/providers/storiesProvider.dart';
-import 'package:facebook_clone/providers/userProvider.dart'; 
+import 'package:facebook_clone/providers/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

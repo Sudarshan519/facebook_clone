@@ -1,11 +1,18 @@
+import 'package:facebook_clone/model/comment.dart';
 import 'package:facebook_clone/model/post.dart';
+import 'package:facebook_clone/providers/commentProvider.dart';
 import 'package:facebook_clone/utils/const.dart';
 import 'package:facebook_clone/utils/timeformat.dart';
+import 'package:facebook_clone/widgets/commentWidget.dart';
 import 'package:facebook_clone/widgets/imageview.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 Widget postWidget(context, Post post) {
+  final _commentProvider = Provider.of<CommentProvider>(context);
   return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
     Container(
       padding: EdgeInsets.all(10),
@@ -80,7 +87,7 @@ Widget postWidget(context, Post post) {
           ],
         )),
     InkWell(
-        child: Hero(tag: post.image, child: Image.network(post.image)),
+        child: Image.network(post.image),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ImageWidget(
@@ -119,7 +126,11 @@ Widget postWidget(context, Post post) {
     ),
     Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       LikeButton(),
-      LikeShareCommentWidget(icon: FontAwesomeIcons.comments, text: 'Comment'),
+      LikeShareCommentWidget(
+        icon: FontAwesomeIcons.comments,
+        text: 'Comment',
+        comments: _commentProvider.comments,
+      ),
       LikeShareCommentWidget(icon: FontAwesomeIcons.share, text: 'Share'),
     ]),
     SizedBox(
@@ -129,16 +140,167 @@ Widget postWidget(context, Post post) {
       padding: const EdgeInsets.only(left: 8.0, right: 8),
       child: Divider(),
     ),
-    CommentWidget(post: post),
+    CommentWidget(post: post, comments: _commentProvider.comments),
   ]);
+}
+
+void _showBottomSheet(BuildContext context, comments) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return GestureDetector(
+        onTap: () => Navigator.of(context).pop(),
+        child: Container(
+          color: Color.fromRGBO(0, 0, 0, 0.001),
+          child: GestureDetector(
+            onTap: () {},
+            child: DraggableScrollableSheet(
+              initialChildSize: 1,
+              minChildSize: 0.8,
+              maxChildSize: 1,
+              builder: (_, controller) {
+                return Container(
+                  margin: EdgeInsets.only(top: 20),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16))),
+                  child: Column(
+                    children: [
+                      // Icon(
+                      //   Icons.remove,
+                      //   color: Colors.grey[600],
+                      // ),
+                      // Expanded(
+                      //   child: ListView.builder(
+                      //     controller: controller,
+                      //     itemCount: 100,
+                      //     itemBuilder: (_, index) {
+                      //       return Card(
+                      //         child: Padding(
+                      //           padding: EdgeInsets.all(8),
+                      //           child: Text("Element at index($index)"),
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CircleAvatar(
+                                radius: 10,
+                                child: Icon(FontAwesomeIcons.solidThumbsUp,
+                                    size: 10)),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(comments.length.toString(),
+                                style: TextStyle(
+                                    color: Colors.grey[800], fontSize: 20)),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.arrow_forward_ios, size: 20),
+                            Spacer(),
+                            Icon(FontAwesomeIcons.thumbsUp, color: Colors.grey),
+                          ],
+                        ),
+                      ),
+                      Divider(),
+
+                      Container(
+                        height: (MediaQuery.of(context).size.height - 150),
+                        // color: Colors.grey,
+                        child: SingleChildScrollView(
+                            child: Column(children: [
+                          ...comments.map((Comment v) => Container(
+                                  child: Column(children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(width: 10),
+                                    CircleAvatar(
+                                      radius: 15,
+                                      backgroundColor: Colors.grey,
+                                      backgroundImage: NetworkImage(v.avatar),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        margin: const EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(8),
+                                        width: 400,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.grey[200],
+                                        ),
+                                        child: Text(v.comment,
+                                            style: TextStyle(
+                                                color: Colors.grey[700])),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(left: 50),
+                                        child: Text(
+                                          'Like',
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 30),
+                                        child: Text(
+                                          'Reply',
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ]),
+                                SizedBox(height: 10)
+                              ])))
+                        ])),
+                      ),
+                      Spacer(),
+
+                      Hero(
+                        tag: 'comment',
+                        child: CommentBox(
+                          hinttext: 'Write a public comment',
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget({
     Key key,
     this.post,
+    this.comments,
   }) : super(key: key);
   final Post post;
+  final List<Comment> comments;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -199,57 +361,88 @@ class CommentWidget extends StatelessWidget {
                 ),
               ),
             ]),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(userimage),
-                  ),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(30)),
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            prefix: SizedBox(width: 10),
-                            hintText: 'Write a comment',
-                            hintStyle: TextStyle(
-                              fontSize: 14,
-                            ),
-                            suffixIcon: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.camera_alt_outlined,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Icon(
-                                    Icons.photo,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Icon(
-                                    FontAwesomeIcons.smile,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(width: 5),
-                                ])),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
+            Hero(
+                tag: 'comment',
+                child: InkWell(
+                    child: CommentBox(
+                        hinttext: 'Write a comment',
+                        ontapped: () {
+                          _showBottomSheet(context, comments);
+                        }))),
           ],
         ));
+  }
+}
+
+class CommentBox extends StatelessWidget {
+  const CommentBox({
+    Key key,
+    this.hinttext,
+    this.ontapped,
+  }) : super(key: key);
+  final String hinttext;
+  final Function() ontapped;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 5,
+        vertical: 10,
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundImage: NetworkImage(userimage),
+          ),
+          SizedBox(width: 5),
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                ontapped();
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) => WriteComment()));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(30)),
+                alignment: Alignment.center,
+                child: TextField(
+                  enabled: false,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefix: SizedBox(width: 10),
+                      hintText: hinttext,
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                      ),
+                      suffixIcon: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.camera_alt_outlined,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(width: 5),
+                            Icon(
+                              Icons.photo,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(width: 5),
+                            Icon(
+                              FontAwesomeIcons.smile,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(width: 5),
+                          ])),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 
@@ -293,16 +486,20 @@ class _LikeButtonState extends State<LikeButton> {
 class LikeShareCommentWidget extends StatelessWidget {
   final IconData icon;
   final String text;
+  final List<Comment> comments;
   const LikeShareCommentWidget({
     Key key,
     this.icon,
     this.text,
+    this.comments,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        _showBottomSheet(context, comments);
+      },
       child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
         Icon(icon, color: Colors.grey),
         SizedBox(
