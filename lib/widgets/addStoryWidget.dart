@@ -47,7 +47,7 @@ Widget story() {
 
 Widget addStory() {
   return AnimatedContainer(
-    duration: Duration(milliseconds: 300),
+    duration: Duration(milliseconds: 10),
     decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(16)),
@@ -120,7 +120,7 @@ class AddStory extends StatelessWidget {
   Widget build(BuildContext context) {
     print(position);
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 10),
       decoration: BoxDecoration(
           color: Colors.grey[200],
           // image:

@@ -84,20 +84,31 @@ class _StoriesContainerState extends State<StoriesContainer> {
                 height: (150 - position),
                 width: (150 - position),
                 child: CircleAvatar(
-                    radius: (50 - radius / 10),
+                    // radius: (50 - radius / 10),
                     backgroundColor: Colors.transparent,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Stack(
                           children: [
-                            CircleAvatar(
-                                radius: (50 - radius / 10),
-                                backgroundImage: NetworkImage(
-                                    'https://scontent.fktm10-1.fna.fbcdn.net/v/t1.6435-9/206085383_458435611892568_1808376874543890904_n.jpg?_nc_cat=1&ccb=1-4&_nc_sid=09cbfe&_nc_ohc=ygaMJmQyejYAX-b6QzQ&_nc_ht=scontent.fktm10-1.fna&oh=8d340c6c02afe31f23dea8d3cdcaae9f&oe=6135C672'),
-                                backgroundColor: Colors.blue),
-                            CircleAvatar(
-                              radius: (15 - radius / 5),
-                              child: Icon(Icons.add, size: (15 - radius / 8)),
+                            Container(
+                              alignment: Alignment.center,
+                              child: CircleAvatar(
+                                  radius: 20,
+                                  // radius: (50 - radius / 10),
+                                  backgroundImage: NetworkImage(
+                                      'https://scontent.fktm10-1.fna.fbcdn.net/v/t1.6435-9/206085383_458435611892568_1808376874543890904_n.jpg?_nc_cat=1&ccb=1-4&_nc_sid=09cbfe&_nc_ohc=ygaMJmQyejYAX-b6QzQ&_nc_ht=scontent.fktm10-1.fna&oh=8d340c6c02afe31f23dea8d3cdcaae9f&oe=6135C672'),
+                                  backgroundColor: Colors.blue),
+                            ),
+                            Container(
+                              alignment: Alignment.bottomRight,
+                              child: CircleAvatar(
+                                radius: 8,
+                                // radius: (15 - radius / 5),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 8,
+                                ),
+                              ),
                             )
                           ],
                         ))),
