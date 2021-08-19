@@ -1,6 +1,10 @@
 import 'package:after_layout/after_layout.dart';
-import 'package:facebook_clone/pages/home/addFriendWidget.dart';
-import 'package:facebook_clone/pages/login/loginPage.dart';
+import 'package:facebook_clone/pages/addfriend/addFriendWidget.dart';
+import 'package:facebook_clone/pages/jobs/jobs.dart';
+
+import 'package:facebook_clone/pages/menu/main.dart';
+import 'package:facebook_clone/pages/notifications/notification.dart';
+import 'package:facebook_clone/pages/watch/watchlist.dart';
 import 'package:facebook_clone/providers/commentProvider.dart';
 import 'package:facebook_clone/providers/postProvider.dart';
 import 'package:facebook_clone/providers/storiesProvider.dart';
@@ -18,8 +22,9 @@ final List<IconData> _tabs = <IconData>[
   Icons.home,
   Icons.people_outline,
   Icons.tv,
-  Icons.view_quilt_sharp,
-  Icons.notifications_none_outlined,
+  FontAwesomeIcons.briefcase,
+  // Icons.view_quilt_sharp,
+  Icons.notifications,
   Icons.menu
 ];
 
@@ -60,25 +65,10 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                   storiesProvider: _storiesProvider,
                   postProvider: _postProvider),
               AddFriend(),
-              Container(),
-              Container(),
-              Container(),
-              ListView(
-                children: [
-                  Container(
-                    height: 50,
-                  ),
-                  ListTile(
-                      onTap: () => Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => LoginPage())),
-                      tileColor: Theme.of(context).scaffoldBackgroundColor,
-                      title: Text(
-                        'Log out',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      leading: Icon(Icons.logout)),
-                ],
-              ),
+              WatchlistPage(),
+              JobsPage(),
+              NotificationPage(),
+              MenuPage(),
             ],
           ),
         ),
@@ -155,7 +145,8 @@ class TabWidget extends StatelessWidget {
         forceElevated: innerBoxIsScrolled,
         bottom: TabBar(
           // isScrollable: true,
-          labelColor: Colors.grey,
+          labelColor: Colors.blue,
+          unselectedLabelColor: Colors.grey,
           indicatorColor: Colors.blue,
           tabs: _tabs
               .map((IconData name) => Tab(
@@ -165,6 +156,7 @@ class TabWidget extends StatelessWidget {
                   )))
               .toList(),
         ),
+        
       ),
     );
   }

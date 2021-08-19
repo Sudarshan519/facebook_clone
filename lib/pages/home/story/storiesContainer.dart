@@ -1,4 +1,4 @@
-import 'package:facebook_clone/pages/home/storiesWidget.dart';
+import 'package:facebook_clone/pages/home/story/storiesWidget.dart';
 import 'package:facebook_clone/widgets/addStoryWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

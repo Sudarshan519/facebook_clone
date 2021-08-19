@@ -1,5 +1,5 @@
 
-import 'package:facebook_clone/pages/home/storiesContainer.dart';
+import 'package:facebook_clone/pages/home/story/storiesContainer.dart';
 import 'package:facebook_clone/widgets/createPostWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';

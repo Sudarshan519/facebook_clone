@@ -1,5 +1,5 @@
 import 'package:facebook_clone/model/stories.dart';
-import 'package:facebook_clone/widgets/storyView.dart';
+import 'package:facebook_clone/pages/home/story/storyView.dart'; 
 import 'package:flutter/material.dart';
 
 Widget storiesWidget(context, Stories e) {

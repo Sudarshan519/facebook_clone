@@ -18,7 +18,11 @@ class LoginPage extends StatelessWidget {
             Spacer(),
             Center(
                 child: CircleAvatar(
-                    radius: 40, child: Icon(FontAwesomeIcons.facebookF))),
+                    radius: 40,
+                    child: Icon(
+                      FontAwesomeIcons.facebookF,
+                      size: 40,
+                    ))),
             Spacer(),
             Center(
               child: Column(

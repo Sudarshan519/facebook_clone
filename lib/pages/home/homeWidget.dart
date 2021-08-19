@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:facebook_clone/pages/home/storiesContainer.dart';
+import 'package:facebook_clone/pages/home/story/storiesContainer.dart';
 import 'package:facebook_clone/providers/postProvider.dart';
 import 'package:facebook_clone/providers/storiesProvider.dart';
 import 'package:facebook_clone/widgets/createPostWidget.dart';
